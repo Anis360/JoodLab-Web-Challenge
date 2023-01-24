@@ -192,7 +192,7 @@ while (true)
         Console.WriteLine("Enter genre (optional):");
         var genre = Console.ReadLine();
         Console.WriteLine("Enter platform (optional):");
-        var platforms = Console.ReadLine().ToUpper();
+        var platform = Console.ReadLine().ToUpper();
         using (var connection = new MySqlConnection(connectionString))
         {
             connection.Open();
@@ -202,7 +202,7 @@ while (true)
             {
                 query += " WHERE genre = @genre";
             }
-            if (!string.IsNullOrEmpty(platforms))
+            if (!string.IsNullOrEmpty(platform))
             {
                 if (string.IsNullOrEmpty(genre))
                 {
@@ -212,7 +212,7 @@ while (true)
                 {
                     query += " AND";
                 }
-                query += $" JSON_CONTAINS(platforms, JSON_QUOTE(\"{platforms}\"), '$')";
+                query += $" JSON_CONTAINS(platforms, JSON_QUOTE(\"{platform}\"), '$')";
             }
             query += " GROUP BY game ORDER BY total_playtime DESC";
             using (var command = new MySqlCommand(query, connection))
@@ -221,9 +221,9 @@ while (true)
                 {
                     command.Parameters.AddWithValue("@genre", genre);
                 }
-                if (!string.IsNullOrEmpty(platforms))
+                if (!string.IsNullOrEmpty(platform))
                 {
-                    command.Parameters.AddWithValue("@platforms", $"JSON_ARRAY({platforms})");
+                    command.Parameters.AddWithValue("@platforms", $"JSON_ARRAY({platform})");
                 }
 
                 using (var reader = command.ExecuteReader())
@@ -242,7 +242,7 @@ while (true)
         Console.WriteLine("Enter genre (optional):");
         var genre = Console.ReadLine();
         Console.WriteLine("Enter platform (optional):");
-        var platforms = Console.ReadLine().ToUpper();
+        var platform = Console.ReadLine().ToUpper();
 
         using (var connection = new MySqlConnection(connectionString))
         {
@@ -252,7 +252,7 @@ while (true)
             {
                 query += " WHERE genre = @genre";
             }
-            if (!string.IsNullOrEmpty(platforms))
+            if (!string.IsNullOrEmpty(platform))
             {
                 if (string.IsNullOrEmpty(genre))
                 {
@@ -262,7 +262,7 @@ while (true)
                 {
                     query += " AND";
                 }
-                query += $" JSON_CONTAINS(platforms, JSON_QUOTE(\"{platforms}\"), '$')";
+                query += $" JSON_CONTAINS(platforms, JSON_QUOTE(\"{platform}\"), '$')";
             }
             query += " GROUP BY game ORDER BY total_players DESC";
             using (var command = new MySqlCommand(query, connection))
@@ -271,9 +271,9 @@ while (true)
                 {
                     command.Parameters.AddWithValue("@genre", genre);
                 }
-                if (!string.IsNullOrEmpty(platforms))
+                if (!string.IsNullOrEmpty(platform))
                 {
-                    command.Parameters.AddWithValue("@platforms", $"JSON_ARRAY({platforms})");
+                    command.Parameters.AddWithValue("@platforms", $"JSON_ARRAY({platform})");
                 }
                 using (var reader = command.ExecuteReader())
                 {
